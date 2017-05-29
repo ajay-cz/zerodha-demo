@@ -1,0 +1,74 @@
+from kiteconnect import KiteConnect
+from kiteconnect import WebSocket
+from datetime import datetime
+import json
+import urllib
+import requests
+import math
+import kiteconnect.exceptions as ex
+import sys
+from time import sleep
+import pandas as pd
+from collections import OrderedDict
+
+
+api_key=""
+secret=""
+request_token = input('Enter Request Token: ')
+kite = KiteConnect(api_key=api_key)
+
+try:
+    data = kite.request_access_token(request_token, secret)
+except ex.TokenException as tokenerror:
+    print(tokenerror)
+except Exception as e1:
+    print("Authentication failed ->>", str(e1))
+
+try:
+    kws = kws = WebSocket("", data["access_token"], "ZT6579")
+except ex.PermissionException as PermissionExceptionerror:
+    print(PermissionExceptionerror)
+except Exception as e2:
+    print("Authentication failed ->>", str(e2))
+
+def on_tick(tick, ws):
+    print("\n\nThis data needs to be stored in MYSQL ->", tick, "Time", str(datetime.now()))
+#    df = pd.DataFrame(tick)
+#    print("\n\nLast Traded Price of the insrument 53405959 :", df['last_price'][0], "   : Time", str(datetime.now()))
+   
+  
+# Callback for successful connection.
+def on_connect(ws):
+    ws.subscribe([53405959, 53397255, 53426439, 53427463])
+    ws.set_mode(ws.MODE_LTP, [53405959, 53397255, 53426439, 53427463])
+    print("\n\nConnected to Market for Live Straeming data and Subscribed to Insrument 53405959")
+    print("================================================================================\n\n")
+
+# Assign the callbacks.
+kws.on_tick = on_tick
+kws.on_connect = on_connect
+
+# Infinite loop on the main thread. Nothing after this will run.
+# You have to use the pre-defined callbacks to manage subscriptions.
+kws.connect()
+#isconnected = kws.is_connected()
+#print(isconnected)
+#kws.reconnect()
+
+
+
+
+#historicallink = data["access_token"]
+#historicallink1 = "https://api.kite.trade/instruments/historical/53405959/minute?from=2017-05-17&to=2017-05-18&api_key=qxlf7e2xdrtkdbk3&access_token=" 
+#historicallink2 = historicallink1 +historicallink
+#print("historicallink2 ->:", historicallink2)
+#
+#
+#try:
+#    historicaldata = requests.get(historicallink2)
+#    print(historicaldata)
+#except ex.PermissionException as PermissionException_error:
+#    print("Permission Exception -->", + PermissionException_error)
+#except Exception as er45:
+#    print(er45)
+# Callback for tick reception.

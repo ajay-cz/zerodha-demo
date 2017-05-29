@@ -1,0 +1,36 @@
+
+import pandas as pd
+import re
+from collections import OrderedDict
+import datetime
+
+#------------------------------------------------------------------------------------------------------------------
+#This is a perfect working example to get the last price
+df = pd.DataFrame({'tradeable': True, 'mode': 'ltp', 'instrument_token': 53405959, 'last_price': 169.7}, index=[0])
+# print("\n\nLast Traded Price of the insrument 53405959 :", df['last_price'][0], " : Time", str(datetime.now()))
+#print(df['last_price'][0])
+#------------------------------------------------------------------------------------------------------------------
+starttime = datetime.datetime.now()
+
+df = pd.read_csv('C:/Users/Administrator/Desktop/Niftytickdata.txt', sep=" ", header=None)
+for row in df.itertuples():
+    print("Open: ", re.sub(r"[^\d.]+", "", row[3], 0),"High: ", re.sub(r"[^\d.]+", "", row[4], 0),"Low: ", re.sub(r"[^\d.]+", "", row[5], 0),"Close: ", re.sub(r"[^\d.]+", "", row[6], 0), "Volume: ", re.sub(r"[^\d.]+", "", row[7], 0), "Time:", "\n")
+#print(row[2][2])
+
+endtime = datetime.datetime.now()
+print("Start Time:", starttime)
+print("End Time", endtime)
+#result = re.sub(r"[^\d.]+", "", df[1][6374], 0)
+#print (result)
+#result = re.sub(r"[^\d.]+", "", df[2][6374], 0)
+#print (result)
+#result = re.sub(r"[^\d.]+", "", df[3][6374], 0)
+#print (result)
+#result = re.sub(r"[^\d.]+", "", df[4][6374], 0)
+#print (result)
+#result = re.sub(r"[^\d.]+", "", df[5][6374], 0)
+#print (result)
+#result = re.sub(r"[^\d.]+", "", df[6][6374], 0)
+#print (result)
+
+#https://chrisalbon.com/python/pandas_index_select_and_filter.html

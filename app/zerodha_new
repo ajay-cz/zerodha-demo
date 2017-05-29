@@ -1,0 +1,123 @@
+# -*- coding: utf-8 -*-
+import logging
+from threading import Thread
+from queue import Queue
+
+from app.client import GMTechWebSocket
+from app.utils import retry
+from kiteconnect import KiteConnect
+
+# Dummy Keys
+from websocket import WebSocketException
+
+api_key = "abcd51hdgns"  # API KEY
+user_id = "DR1234"  # USER ID
+public_token = "asljfldlncnl093nnnzc4"  # PUBLIC TOKEN
+
+API_KEY = ''
+kite = KiteConnect(api_key=API_KEY)
+
+o_instr = [738561, 5633]
+instruments = [53397255, 53426439, 53427463, 53426951, 53329415, 53405959]
+
+logging.basicConfig(
+    filename='logs.log',
+    level=logging.DEBUG,
+    format='(%(threadName)-10s) %(message)s',
+)
+logging.getLogger('websocket').setLevel(logging.DEBUG)
+
+LOG = logging.getLogger(__name__)
+
+
+class ZerodhaWorker(Thread):
+    """"
+    """
+    __queue = Queue()
+    __client_socket = None
+    __run_status = False
+
+    def __init__(self, q):
+        """
+
+        :param group:
+        :param target:
+        :param name:
+        :param args:
+        :param kwargs:
+        :param daemon:
+        """
+        Thread.__init__(self)
+        self.__queue = q
+
+        if not self.__client_socket:
+            self.__run_status = self.__initiate_socket()
+            LOG.debug(self.__run_status)
+            print("Info: ZerodhaWorker Status - %s" % str(self.__run_status))
+
+    def run(self):
+
+        def on_error(erorr, ws):
+            """
+
+            :param erorr:
+            :param ws:
+            :return:
+            """
+            LOG.error("WS - %s" % ws._gm_name)
+            print("WS Error- %s" % ws._gm_name)
+            self.__client_socket.reconnect()
+        # Callback for tick reception.
+        def on_tick(tick, ws):
+            print(tick)
+
+        # Callback for successful connection.
+        def on_connect(ws):
+            print("On Connect %s" % ws._gm_name)
+            _instruments = ZerodhaWorker.__queue.get()
+            # Subscribe to a list of instrument_tokens (RELIANCE and ACC here).
+            ws.subscribe(_instruments)
+            print("On Connect %s Subscribed to %s" % (ws._gm_name, ','.join(_instruments)))
+            # Set RELIANCE to tick in `full` mode.
+            ws.set_mode(ws.MODE_LTP, _instruments)
+
+        # Assign the callbacks.
+        self.__client_socket.on_tick = on_tick
+        self.__client_socket.on_error = on_error
+        self.__client_socket.on_connect = on_connect
+        while True:
+            self.__client_socket.connect()
+
+    def close(self):
+        """
+
+        :return:
+        """
+        print("On Close %s" % ws._gm_name)
+        self.__client_socket.close()
+
+    @retry(count=10, exc_type=WebSocketException)
+    def __initiate_socket(self):
+        """
+
+        :return:
+        """
+        # Initialise.
+        status = False
+        try:
+            self.__client_socket = GMTechWebSocket(api_key, public_token, user_id)
+            print("Info: start_connection Successful- %s" % str(self.__client_socket._gm_name))
+            status = True
+        except WebSocketException as e:
+            LOG.error("start_connection - %s" % str(e))
+            print("Error: start_connection - %s" % str(e))
+            raise e
+
+        return status
+
+
+# q = Queue().put(instruments)
+# zc = ZerodhaWorker(q)
+# zc.setName("zc")
+# zc.setDaemon(True)
+# zc.start()

@@ -1,0 +1,50 @@
+sql = "CREATE TABLE  %s " \
+      "(Time time NOT NULL,  " \
+      "InstrumentToken varchar(32) NOT NULL,  " \
+      "LastTradedPrice DECIMAL(20,4) NOT NULL,  " \
+      "LastTradedQty BIGINT NOT NULL,  " \
+      "AvgTradedPrice DECIMAL(20,4) NOT NULL,  " \
+      "Volume BIGINT NOT NULL,  " \
+      "BuyQty BIGINT NOT NULL,  " \
+      "SellQty BIGINT NOT NULL,  " \
+      "OpenPrice DECIMAL(20,4) NOT NULL,  " \
+      "HighPrice DECIMAL(20,4) NOT NULL,  " \
+      "LowPrice DECIMAL(20,4) NOT NULL,  " \
+      "ClosePrice DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthBid1Qty BIGINT NOT NULL,  " \
+      "MarketDepthBid1Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthBid1Orders INTEGER NOT NULL,  " \
+      "MarketDepthBid2Qty BIGINT NOT NULL,  " \
+      "MarketDepthBid2Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthBid2Orders INTEGER NOT NULL,  " \
+      "MarketDepthBid3Qty BIGINT NOT NULL,  " \
+      "MarketDepthBid3Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthBid3Orders INTEGER NOT NULL,  " \
+      "MarketDepthBid4Qty BIGINT NOT NULL,  " \
+      "MarketDepthBid4Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthBid4Orders INTEGER NOT NULL,  " \
+      "MarketDepthBid5Qty BIGINT NOT NULL,  " \
+      "MarketDepthBid5Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthBid5Orders INTEGER NOT NULL,  " \
+      "MarketDepthOffer1Qty BIGINT NOT NULL,  " \
+      "MarketDepthOffer1Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthOffer1Orders INTEGER NOT NULL,  " \
+      "MarketDepthOffer2Qty BIGINT NOT NULL,  " \
+      "MarketDepthOffer2Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthOffer2Orders INTEGER NOT NULL,  " \
+      "MarketDepthOffer3Qty BIGINT NOT NULL,  " \
+      "MarketDepthOffer3Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthOffer3Orders INTEGER NOT NULL,  " \
+      "MarketDepthOffer4Qty BIGINT NOT NULL,  " \
+      "MarketDepthOffer4Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthOffer4Orders INTEGER NOT NULL,  " \
+      "MarketDepthOffer5Qty BIGINT NOT NULL,  " \
+      "MarketDepthOffer5Price DECIMAL(20,4) NOT NULL,  " \
+      "MarketDepthOffer5Orders INTEGER NOT NULL,  PRIMARY KEY (InstrumentToken, Time)" \
+      ")  ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+
+
+insert_query = """
+INSERT INTO `zerodhastreamquotes_modefull` (`Time`, `InstrumentToken`, `LastTradedPrice`, `LastTradedQty`, `AvgTradedPrice`, `Volume`, `BuyQty`, `SellQty`, `OpenPrice`, `HighPrice`, `LowPrice`, `ClosePrice`, `MarketDepthBid1Qty`, `MarketDepthBid1Price`, `MarketDepthBid1Orders`, `MarketDepthBid2Qty`, `MarketDepthBid2Price`, `MarketDepthBid2Orders`, `MarketDepthBid3Qty`, `MarketDepthBid3Price`, `MarketDepthBid3Orders`, `MarketDepthBid4Qty`, `MarketDepthBid4Price`, `MarketDepthBid4Orders`, `MarketDepthBid5Qty`, `MarketDepthBid5Price`, `MarketDepthBid5Orders`, `MarketDepthOffer1Qty`, `MarketDepthOffer1Price`, `MarketDepthOffer1Orders`, `MarketDepthOffer2Qty`, `MarketDepthOffer2Price`, `MarketDepthOffer2Orders`, `MarketDepthOffer3Qty`, `MarketDepthOffer3Price`, `MarketDepthOffer3Orders`, `MarketDepthOffer4Qty`, `MarketDepthOffer4Price`, `MarketDepthOffer4Orders`, `MarketDepthOffer5Qty`, `MarketDepthOffer5Price`, `MarketDepthOffer5Orders`) VALUES ('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+
+"""
