@@ -5,10 +5,10 @@ from app.utils import fetch_ltp_results
 from app.zerodha import ZerodhaWorker
 from flask import Flask, render_template
 
-DB_HOST = 'localhost'
+DB_HOST = 'ayshar.com'
 DB_NAME = 'zerodhaquotesdb'
-DB_USER = 'root'
-DB_PWD = ''
+DB_USER = 'tradeuser2'
+DB_PWD = 'tradeuser2'
 
 # Flask app
 app = Flask(__name__)
