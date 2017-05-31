@@ -6,7 +6,7 @@ from app.zerodha import ZerodhaWorker
 from flask import Flask, render_template
 
 DB_HOST = 'ayshar.com'
-DB_NAME = 'zerodhaquotesdb'
+DB_NAME = 'trading1'
 DB_USER = 'tradeuser2'
 DB_PWD = 'tradeuser2'
 

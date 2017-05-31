@@ -23,8 +23,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `zstreamingquotesdb`
 --
-CREATE DATABASE IF NOT EXISTS `zerodhaquotesdb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `zerodhaquotesdb`;
+CREATE DATABASE IF NOT EXISTS `trading1` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `trading1`;
 -- --------------------------------------------------------
 
 --
