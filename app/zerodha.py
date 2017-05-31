@@ -9,10 +9,14 @@ from kiteconnect import KiteConnect
 
 # Dummy Keys
 from websocket import WebSocketException, WebSocketConnectionClosedException
+#
+# api_key = "abcd51hdgns"  # API KEY
+# user_id = "DR1234"  # USER ID
+# public_token = "asljfldlncnl093nnnzc4"  # PUBLIC TOKEN
 
-api_key = "abcd51hdgns"  # API KEY
-user_id = "DR1234"  # USER ID
-public_token = "asljfldlncnl093nnnzc4"  # PUBLIC TOKEN
+api_key = "qxlf7e2xdrtkdbk3"  # API KEY
+user_id = "ZT6579"  # USER ID
+public_token = "btdtrkgobwbyc70u5l59k2v1rjvzanim"  # PUBLIC TOKEN
 
 API_KEY = ''
 kite = KiteConnect(api_key=API_KEY)

@@ -10,6 +10,11 @@ DB_NAME = 'trading1'
 DB_USER = 'tradeuser2'
 DB_PWD = 'tradeuser2'
 
+# DB_HOST = 'localhost'
+# DB_NAME = 'zerodhaquotesdb'
+# DB_USER = 'root'
+# DB_PWD = ''
+
 # Flask app
 app = Flask(__name__)
 app.config.from_object(__name__)
