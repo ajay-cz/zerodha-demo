@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from queue import Queue
 
-from app.utils import fetch_ltp_results
+from app.utils import fetch_ltp_results, delete_ltp_entries
 from app.zerodha import ZerodhaWorker
 from flask import Flask, render_template
 
@@ -46,6 +46,20 @@ def home_page():
     :return:
     """
     return "<h4>Welcome !</h4><br><a href='/fetch'>View Results</a>"
+
+
+@app.route('/clear/<clear_db>')
+def clear_instruments(clear_db):
+    """
+
+    :return:
+    """
+    print(clear_db)
+    ZerodhaWorker.clear_instruments(ZerodhaWorker)
+    if asbool(clear_db):
+        print(delete_ltp_entries())
+    return ""
+
 
 
 @app.route('/add/<instrument_token>')

@@ -68,6 +68,16 @@ class ZerodhaWorker(Thread):
         else:
             raise QueueFullException
 
+    def clear_instruments(cls):
+        """
+
+        :return:
+        """
+        while not cls.__queue.empty():
+            cls.__queue.get()
+        # print(cls.__queue.empty())
+        return True
+
 
     @retry(3, exc_type=WebSocketConnectionClosedException)
     @retry(3, exc_type=Exception)

@@ -103,6 +103,24 @@ def fetch_ltp_results():
         connection.close()
 
 
+
+def delete_ltp_entries():
+    """
+
+    :return:
+    """
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            # Read a single record
+            sql = "DELETE from zerodhastreamquotes_modeltp WHERE 1"
+            print(sql)
+            cursor.execute(sql)
+            return cursor.fetchall()
+    finally:
+        connection.close()
+
+
 class QueueFullException(Exception):
     pass
 
