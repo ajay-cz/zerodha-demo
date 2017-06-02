@@ -44,9 +44,9 @@
                             </td>
                             <td>{{ item.Mode }}</td>
                             <td>{{ item.Tradeable }}</td>
-                            <td>{{ item.Timestamp }}</td>
-                            <td>{{ item.UpdatedOn }}</td>
-                            <td>{{ item.InsertedOn }}</td>
+                            <td>{{ item.Timestamp|ctime }}</td>
+                            <td>{{ item.UpdatedOn|ctime }}</td>
+                            <td>{{ item.InsertedOn|ctime }}</td>
                         </tr>
                         {%- endfor -%}
                         </tbody>

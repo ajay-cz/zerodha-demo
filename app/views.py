@@ -3,6 +3,7 @@ from queue import Queue
 
 from app.utils import fetch_ltp_results, delete_ltp_entries
 from app.zerodha import ZerodhaWorker
+import arrow
 from flask import Flask, render_template
 
 DEBUG = False
@@ -26,6 +27,12 @@ app.debug = True
 
 truthy = frozenset(('t', 'true', 'y', 'yes', 'on', '1'))
 
+@app.template_filter('ctime')
+def timectime(s):
+    a_f = arrow.Arrow.fromtimestamp(s).to('Asia/Kolkata')
+    return a_f
+
+    # return a_f/a_f.microsecond/1e6.
 
 q = Queue(maxsize=200)
 

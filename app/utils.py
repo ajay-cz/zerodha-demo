@@ -77,7 +77,7 @@ def insert_into_ltp_table(inv_time, updated_on, data_dict):
             # Create a new record
             sql = "INSERT INTO zerodhastreamquotes_modeltp (InstrumentToken, Tradeable, Timestamp, UpdatedOn, InsertedOn, LastTradedPrice, Mode) VALUES (%s, %s, %s, %s, %s, %s,%s)"
             cursor.execute(sql, (
-            data_dict.get('instrument_token'), data_dict.get('tradeable'), str(inv_time), str(updated_on), str(arrow.utcnow().timestamp), data_dict.get('last_price'),
+            data_dict.get('instrument_token'), data_dict.get('tradeable'), str(inv_time), str(updated_on), str(arrow.utcnow().float_timestamp), data_dict.get('last_price'),
             data_dict.get('mode')))
         # connection is not autocommit by default. So we do an explicit commit here
         connection.commit()

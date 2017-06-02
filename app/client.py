@@ -22,7 +22,7 @@ class GMTechWebSocket(WebSocket):
         :param user_id:
         :param root:
         """
-        self.__call_time = arrow.utcnow().timestamp
+        self.__call_time = arrow.utcnow().float_timestamp
         self._gm_name = self.__call_time
         WebSocket.__init__(self, api_key, public_token, user_id, root)
 
@@ -131,8 +131,8 @@ class GMTechWebSocket(WebSocket):
         :return:
         """
         if mode == self.MODE_LTP:
-            print_message("Received Tick %s - %s at %s" % (mode, data, arrow.utcnow().timestamp))
-            db_thread = threading.Thread(name='insert_into_ltp_table_thread', target=insert_into_ltp_table, args=(self.__call_time, arrow.utcnow().timestamp, data,), daemon=True).start()
+            print_message("Received Tick %s - %s at %f" % (mode, data, arrow.utcnow().float_timestamp))
+            db_thread = threading.Thread(name='insert_into_ltp_table_thread', target=insert_into_ltp_table, args=(self.__call_time, arrow.utcnow().float_timestamp, data,), daemon=True).start()
             # db_thread.daemon = True
             # db_thread.start()
         else:

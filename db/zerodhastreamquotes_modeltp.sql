@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS `zerodhastreamquotes_modeltp` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `InstrumentToken` varchar(32) NOT NULL,
   `Tradeable` tinyint(1) NOT NULL,
-  `Timestamp` varchar(16) NOT NULL,
-  `UpdatedOn` varchar(16) NOT NULL,
-  `InsertedOn` varchar(16) NOT NULL,
+  `Timestamp` varchar(24) NOT NULL,
+  `UpdatedOn` varchar(24) NOT NULL,
+  `InsertedOn` varchar(24) NOT NULL,
   `LastTradedPrice` decimal(20,4) NOT NULL,
   `Mode` varchar(6) NOT NULL,
    PRIMARY KEY (`ID`)
