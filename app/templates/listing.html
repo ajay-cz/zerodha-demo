@@ -1,45 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Optional theme -->
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-</head>
-<body>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>Instrument Token</td>
-                <td>Last Traded Price</td>
-                <td>Mode</td>
-                <td>Tradeable</td>
-                <td>TimeStamp</td>
-            </tr>
-        </thead>
-        <tbody>
-            {%- for item in listings -%}
-            <tr>
-                <td>{{ item.InstrumentToken }}</td>
-                <td>{{ item.LastTradedPrice }}</td>
-                <td>{{ item.Mode }}</td>
-                <td>{{ item.Tradeable }}</td>
-                <td>{{ item.Timestamp }}</td>
-            </tr>
-            {%- endfor -%}
-        </tbody>
-            {{ item }}
-    </table>
-<script>
-    (function() {
-    setTimeout(function(){
-        window.location.reload(1);
-    }, 1000);
-    })()
-
-</script>
-</body>
+        <!-- Optional theme -->
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+    </head>
+    <body>
+        <div class="container">
+            <div class="row pull-right"><A class="btn btn-primary" HREF="javascript:history.go(0)">Reload</A></div>
+            <div class="row">
+                {%- for grouper, list in listings|groupby('InstrumentToken') -%}
+                    {%- set item_listing = list|sort(attribute='UpdatedOn', reverse=True) -%}
+                    <div class="row">
+                        <a class="btn btn-danger" role="button" data-toggle="collapse" href="#{{loop.index}}" aria-expanded="false" aria-controls="collapse-{{loop.index}}">
+                            {{ grouper }} {%- if item_listing|length > 0 %} <span class="badge">{{ item_listing[0].LastTradedPrice }}</span>{%- endif -%}
+                        </a>
+                    </div>
+                    <div class="row">
+                        <div class="collapse" id="{{loop.index}}">
+                        <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td><b>Instrument Token</b></td>
+                            <td><b>Last Traded Price</b></td>
+                            <td><b>Mode</b></td>
+                            <td><b>Tradeable</b></td>
+                            <td><b>Subscribed At</b></td>
+                            <td><b>Last Tick At</b></td>
+                            <td><b>DB Update At</b></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {%- for item in  item_listing -%}
+                        <tr>
+                            <td>{{ item.InstrumentToken }}</td>
+                            <td>{%- if loop.first -%}<b>{{ item.LastTradedPrice }}</b>{%- else -%}{{ item.LastTradedPrice }}{%- endif
+                                -%}
+                            </td>
+                            <td>{{ item.Mode }}</td>
+                            <td>{{ item.Tradeable }}</td>
+                            <td>{{ item.Timestamp }}</td>
+                            <td>{{ item.UpdatedOn }}</td>
+                            <td>{{ item.InsertedOn }}</td>
+                        </tr>
+                        {%- endfor -%}
+                        </tbody>
+                        {{ item }}
+                    </table>
+                    </div>
+                    </div>
+                {%- endfor -%}
+             </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script>
+            /** (function() {
+            setTimeout(function(){
+                window.location.reload(1);
+            }, 1000);
+            })() **/
+        </script>
+    </body>
 </html>

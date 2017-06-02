@@ -2,10 +2,11 @@
 import datetime as dt
 import json
 
-from app.utils import insert_into_ltp_table, _print
+from app.utils import insert_into_ltp_table, print_message
 from kiteconnect import WebSocket
 import timeit
 import threading
+import arrow
 
 
 class GMTechWebSocket(WebSocket):
@@ -21,7 +22,7 @@ class GMTechWebSocket(WebSocket):
         :param user_id:
         :param root:
         """
-        self.__call_time = dt.datetime.now()
+        self.__call_time = arrow.utcnow().timestamp
         self._gm_name = self.__call_time
         WebSocket.__init__(self, api_key, public_token, user_id, root)
 
@@ -30,7 +31,7 @@ class GMTechWebSocket(WebSocket):
         """Parse binary data to a (list of) ticks structure."""
         packets = self._split_packets(bin)  # split data to individual ticks packet
         data = []
-        _print("_parse_binary ")
+        print_message("_parse_binary ")
         for packet in packets:
             instrument_token = self._unpack_int(packet, 0, 4)
             segment = instrument_token & 0xff  # Retrive segment constant from instrument_token
@@ -130,9 +131,9 @@ class GMTechWebSocket(WebSocket):
         :return:
         """
         if mode == self.MODE_LTP:
-            _print("Received Tick %s - %s" % (mode, data))
-            db_thread = threading.Thread(name='insert_into_ltp_table_thread', target=insert_into_ltp_table, args=(self.__call_time, data,))
-            db_thread.daemon = False
-            db_thread.start()
+            print_message("Received Tick %s - %s at %s" % (mode, data, arrow.utcnow().timestamp))
+            db_thread = threading.Thread(name='insert_into_ltp_table_thread', target=insert_into_ltp_table, args=(self.__call_time, arrow.utcnow().timestamp, data,), daemon=True).start()
+            # db_thread.daemon = True
+            # db_thread.start()
         else:
             pass

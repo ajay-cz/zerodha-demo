@@ -4,7 +4,7 @@ from threading import Thread
 from queue import Queue
 
 from app.client import GMTechWebSocket
-from app.utils import retry, _print, QueueFullException
+from app.utils import retry, print_message, QueueFullException
 from kiteconnect import KiteConnect
 
 # Dummy Keys
@@ -21,8 +21,8 @@ public_token = "btdtrkgobwbyc70u5l59k2v1rjvzanim"  # PUBLIC TOKEN
 API_KEY = ''
 kite = KiteConnect(api_key=API_KEY)
 
-o_instr = [738561, 5633]
-instruments = [53397255, 53426439, 53427463, 53426951, 53329415, 53405959]
+# o_instr = [738561, 5633]
+# instruments = [53397255, 53426439, 53427463, 53426951, 53329415, 53405959]
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -34,7 +34,7 @@ LOG = logging.getLogger(__name__)
 
 
 class ZerodhaWorker(Thread):
-    """"
+    """" ZerodhaWorker - The base class to add instruments for subscription
     """
     __queue = Queue()
     __client_socket = None
@@ -90,13 +90,13 @@ class ZerodhaWorker(Thread):
 
         # Callback for tick reception.
         def on_tick(tick, ws):
-            _print(tick)
+            print_message(tick)
 
         # Callback for successful connection.
         def on_connect(ws):
             while self.__queue and not self.__queue.empty():
                 _instruments = self.__queue.get()
-                _print("Adding Instruments - " + str(_instruments))
+                print_message("Adding Instruments - " + str(_instruments))
                 # Subscribe to a list of instrument_tokens (RELIANCE and ACC here).
                 ws.subscribe(_instruments)
                 # Set instruments to tick in `full` mode.

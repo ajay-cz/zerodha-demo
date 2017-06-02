@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 from functools import lru_cache, wraps
 
+import arrow
 import pymysql
 
-DEBUG = False
 
-def _print(message):
+def print_message(message):
     """
 
     :param message:
     :return:
     """
+    from app.views import DEBUG
     if message and DEBUG:
-        _print(message)
+        print(message)
 
 def retry(count=5, exc_type=Exception):
     """ Retry Decorator
@@ -55,7 +56,7 @@ def get_db_connection():
     return connection(DB_HOST, DB_USER, DB_PWD, DB_NAME)
 
 
-def insert_into_ltp_table(inv_time, data_dict):
+def insert_into_ltp_table(inv_time, updated_on, data_dict):
     """Inserts the Date into the LTP Table
 
     :param time:
@@ -74,15 +75,15 @@ def insert_into_ltp_table(inv_time, data_dict):
     try:
         with connection.cursor() as cursor:
             # Create a new record
-            sql = "INSERT INTO zerodhastreamquotes_modeltp (InstrumentToken, Tradeable, Timestamp, LastTradedPrice, Mode) VALUES (%s, %s, %s, %s,%s)"
+            sql = "INSERT INTO zerodhastreamquotes_modeltp (InstrumentToken, Tradeable, Timestamp, UpdatedOn, InsertedOn, LastTradedPrice, Mode) VALUES (%s, %s, %s, %s, %s, %s,%s)"
             cursor.execute(sql, (
-            data_dict.get('instrument_token'), data_dict.get('tradeable'), inv_time, data_dict.get('last_price'),
+            data_dict.get('instrument_token'), data_dict.get('tradeable'), str(inv_time), str(updated_on), str(arrow.utcnow().timestamp), data_dict.get('last_price'),
             data_dict.get('mode')))
         # connection is not autocommit by default. So we do an explicit commit here
         connection.commit()
-        _print("Inserted %s into LTP Table" % data_dict)
+        print_message("Inserted %s into LTP Table" % data_dict)
     except Exception as connexc:
-        _print("Connection Error %s" % str(connexc) )
+        print_message("Connection Error %s" % str(connexc))
     finally:
         connection.close()
 
@@ -125,4 +126,4 @@ class QueueFullException(Exception):
     pass
 
 if __name__ == '__main__':
-    _print(insert_into_ltp_table('11111', {}))
+    print_message(insert_into_ltp_table('11111', {}))
