@@ -5,7 +5,7 @@ from app.utils import fetch_ltp_results, delete_ltp_entries
 from app.zerodha import ZerodhaWorker
 from flask import Flask, render_template
 
-DEBUG = True
+DEBUG = False
 
 DB_HOST = 'ayshar.com'
 DB_NAME = 'trading1'
